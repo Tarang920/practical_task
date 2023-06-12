@@ -21,4 +21,5 @@ Route::group(['prefix' => 'User', 'namespace' => 'User'], function () {
     Route::post('/detail',[UserController::class,'getUserDetail']);
     Route::post('/update',[UserController::class,'editUserDetail']);
     Route::post('/delete',[UserController::class,'deleteUser']);
+    Route::get('/all',[UserController::class,'allUserList']);
 });
