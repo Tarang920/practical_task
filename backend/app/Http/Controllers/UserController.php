@@ -88,4 +88,10 @@ class UserController extends Controller
 
         }
     }
+
+    public function allUserList()
+    {
+        $usersList = User::all();
+        return new GeneralResponse(['data' => $usersList,'message'=>'User List Fetch Successfully']);
+    }
 }
