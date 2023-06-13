@@ -10,7 +10,7 @@ use Log,DB;
 use App\Models\User;
 
 class UserController extends Controller
-{
+{  
     public function createUser(Request $request)
     { 
         DB::beginTransaction();
