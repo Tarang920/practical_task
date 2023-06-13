@@ -15,7 +15,7 @@
       <tbody>
         <tr v-for="post in posts" :key="post.id">
           <td scope="row">{{post.id}}</td>
-          <td>{{post.name}}</td>
+          <td>{{post.first_name}}</td>
           <td>{{post.email}}</td>
           <td><a href="#" class="btn btn-warning" @click="get_user(post.id,post.name,post.email)">Edit</a> <a href="#"  class="btn btn-danger" @click="delete_user(post.id)">Delete</a></td>
          
@@ -100,7 +100,7 @@ methods:{
   //getting all users details
   loadlist(){
     axios
-      .get('http://127.0.0.1:8000/users')
+      .get('http://127.0.0.1:8000/api/User/all')
       .then((resp) => {
         console.log(resp);
         this.posts = resp.data;
