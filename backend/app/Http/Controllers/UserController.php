@@ -10,7 +10,7 @@ use Log,DB;
 use App\Models\User;
 
 class UserController extends Controller
-{
+{  
     public function createUser(Request $request)
     { 
         DB::beginTransaction();
@@ -54,16 +54,17 @@ class UserController extends Controller
         }
     }
 
-    public function editUserDetail(Request $request)
+    public function editUserDetail(Request $request, $id)
     {
-        $data = $request->all();
-        $validator = Validator::make($data,['id'=>'required|exists:users,id']);
+        $requestData = $request->all();
+        \Log::info($requestData);
+        $data = User::findOrFail($id);
 
-        if($validator->fails())
+        if(empty($data))
         {
-            return new GeneralError(['message' => $validator->messages(),'toast' => true]);
+            return new GeneralError(['message' => 'Opps Data not Found :(','toast' => true]);
         }else{
-            $updateUser = User::where('id',$data['id'])->update($data);
+            $updateUser = User::where('id',$data->id)->update($requestData);
 
             // Query for after updating the value to retrive updated record for append in response
             $latestUserDetails = User::where('id',$data['id'])->get();
@@ -72,15 +73,17 @@ class UserController extends Controller
         }
     }
 
-    public function deleteUser(Request $request)
+    public function deleteUser($id)
     {
-        $data = $request->all();
+        // $data = $request->all();
 
-        $validator = Validator::make($data,['id'=>'required|exists:users,id']);
+        // $validator = Validator::make($data,['id'=>'required|exists:users,id']);
 
-        if($validator->fails())
+        $data = User::findOrFail($id);
+
+        if(empty($data))
         {
-            return new GeneralError(['message' => $validator->messages(),'toast' => true]);
+            return new GeneralError(['message' => 'Opps Data is not found','toast' => true]);
         }else{
             $deleteUser = User::find($data['id']);
             $deleteUser->delete();
